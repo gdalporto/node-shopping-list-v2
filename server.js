@@ -52,6 +52,28 @@ app.get('/recipes', (req, res) => {
   res.json(Recipes.get());
 })
 
+app.post('/recipes', jsonParser, (req,res)=> {
+  // store name and ingredients
+  const requiredFields = ['name', 'ingredients'];
+  for (let i=0; i<requiredFields.length; i++){
+//    const field = requiredFields(i);
+    if(!(requiredFields[i] in req.body)){
+      const message = `missing ${requiredFields(i)} in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  };
+  const item = Recipes.create(req.body.name, req.body.ingredients);
+  res.status(201).json(item);
+
+  // check if it has a name and ingredients
+  // process
+
+
+})
+
+
+
 app.listen(process.env.PORT || 8080, () => {
   console.log(`Your app is listening on port ${process.env.PORT || 8080}`);
 });
